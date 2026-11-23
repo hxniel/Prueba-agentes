@@ -34,6 +34,12 @@ def test_conteo_de_fragmentos() -> None:
     assert marcados == [("viaticos.md", 2)]
 
 
+def test_pregunta_de_viaticos_trae_topes_diarios(indice: IndicePoliticas) -> None:
+    resultados = indice.buscar("¿Los viáticos son ilimitados?")
+    assert resultados
+    assert (resultados[0][0].documento, resultados[0][0].articulo) == ("viaticos.md", 1)
+
+
 def test_vacaciones_primer_anio_trae_politica_de_vacaciones(indice: IndicePoliticas) -> None:
     resultados = indice.buscar("cuantos dias de vacaciones me tocan en mi primer año")
     assert resultados
