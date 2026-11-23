@@ -17,6 +17,7 @@ class Paso(BaseModel):
 
 class Fuente(BaseModel):
     documento: str
+    politica: str
     articulo: int
     titulo: str
 

@@ -79,6 +79,7 @@ def extraer_fuentes(evento: Any) -> list[Fuente]:
             fuentes.append(
                 Fuente(
                     documento=registro["documento"],
+                    politica=registro.get("politica") or registro["documento"],
                     articulo=registro["articulo"],
                     titulo=registro["titulo"],
                 )
