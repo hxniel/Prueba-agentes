@@ -40,7 +40,14 @@ def test_chat_respuesta_valida(cliente: TestClient, monkeypatch: pytest.MonkeyPa
             respuesta="La prima vacacional es del 25%.",
             session_id="s-1",
             pasos=[Paso(agente="asistente_rrhh", tipo="respuesta", detalle="ok")],
-            fuentes=[Fuente(documento="vacaciones_y_permisos.md", articulo=2, titulo="Prima")],
+            fuentes=[
+                Fuente(
+                    documento="vacaciones_y_permisos.md",
+                    politica="Política de Vacaciones y Permisos",
+                    articulo=2,
+                    titulo="Prima vacacional",
+                )
+            ],
             duracion_ms=12,
         )
 
@@ -125,7 +132,12 @@ def test_extraer_pasos_evento_sin_llamadas() -> None:
 
 
 def test_extraer_fuentes_de_buscar_y_leer() -> None:
-    resultado = {"documento": "viaticos.md", "articulo": 1, "titulo": "Topes diarios"}
+    resultado = {
+        "documento": "viaticos.md",
+        "politica": "Política de Viáticos",
+        "articulo": 1,
+        "titulo": "Topes diarios",
+    }
     busqueda = {"status": "ok", "resultados": [resultado]}
     respuestas = [
         SimpleNamespace(name="buscar_politicas", response=busqueda),

@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import pytest
@@ -45,7 +46,7 @@ def test_configuracion_del_modelo(agente: Agent) -> None:
 @pytest.mark.parametrize("nombre", ["orquestador", "experto_politicas", "gestor_casos"])
 def test_prompts_cargan_sin_llaves(nombre: str) -> None:
     texto = cargar_prompt(nombre)
-    assert texto.startswith("Versión: 1.0.0")
+    assert re.match(r"Versión: \d+\.\d+\.\d+\n", texto)
     assert "{" not in texto and "}" not in texto
 
 

@@ -364,8 +364,9 @@
         .replace(/\n/g, "<br>");
     }
 
-    function nombreDocumento(documento) {
-      const base = documento.replace(/\.md$/, "").replaceAll("_", " ");
+    function nombreFuente(fuente) {
+      if (fuente.politica) return fuente.politica;
+      const base = fuente.documento.replace(/\.md$/, "").replaceAll("_", " ");
       return base.charAt(0).toUpperCase() + base.slice(1);
     }
 
@@ -410,7 +411,7 @@
       for (const fuente of datos.fuentes) {
         const chip = document.createElement("span");
         chip.className = "chip";
-        chip.textContent = `${nombreDocumento(fuente.documento)} · Art. ${fuente.articulo}`;
+        chip.textContent = `${nombreFuente(fuente)} · Art. ${fuente.articulo}`;
         chip.title = fuente.titulo;
         meta.append(chip);
       }

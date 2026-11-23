@@ -22,6 +22,7 @@ STOPWORDS: frozenset[str] = frozenset(
 ARCHIVOS_EXCLUIDOS: frozenset[str] = frozenset({"fuentes.md"})
 
 PATRON_COMENTARIO = re.compile(r"<!--.*?-->", re.DOTALL)
+PATRON_TITULO_POLITICA = re.compile(r"^# (.+)$", re.MULTILINE)
 PATRON_ARTICULO = re.compile(r"^## Artículo (\d+)\.\s*(.+)$", re.MULTILINE)
 PATRONES_INJECTION: tuple[re.Pattern[str], ...] = tuple(
     re.compile(patron, re.IGNORECASE)
@@ -38,6 +39,7 @@ PATRONES_INJECTION: tuple[re.Pattern[str], ...] = tuple(
 @dataclass(frozen=True)
 class Fragmento:
     documento: str
+    politica: str
     articulo: int
     titulo: str
     texto: str
@@ -71,6 +73,19 @@ def sanitizar(texto: str) -> tuple[str, bool]:
     return limpio, alerta
 
 
+def titulo_politica(contenido: str, archivo: Path) -> str:
+    """Devuelve el título de la política a partir de su encabezado principal.
+
+    Args:
+        contenido: Texto completo de la política.
+        archivo: Ruta del archivo, usada si no hay encabezado.
+    """
+    encabezado = PATRON_TITULO_POLITICA.search(contenido)
+    if encabezado:
+        return encabezado.group(1).strip()
+    return archivo.stem.replace("_", " ").capitalize()
+
+
 def cargar_fragmentos(ruta: Path) -> list[Fragmento]:
     """Divide cada política en un fragmento por artículo.
 
@@ -82,6 +97,7 @@ def cargar_fragmentos(ruta: Path) -> list[Fragmento]:
         if archivo.name in ARCHIVOS_EXCLUIDOS:
             continue
         contenido = archivo.read_text(encoding="utf-8")
+        politica = titulo_politica(contenido, archivo)
         encabezados = list(PATRON_ARTICULO.finditer(contenido))
         for i, encabezado in enumerate(encabezados):
             fin = encabezados[i + 1].start() if i + 1 < len(encabezados) else len(contenido)
@@ -90,6 +106,7 @@ def cargar_fragmentos(ruta: Path) -> list[Fragmento]:
             fragmentos.append(
                 Fragmento(
                     documento=archivo.name,
+                    politica=politica,
                     articulo=int(encabezado.group(1)),
                     titulo=encabezado.group(2).strip(),
                     texto=texto,

@@ -27,7 +27,18 @@ def test_buscar_politicas_con_resultados() -> None:
     assert respuesta["status"] == "ok"
     primero = respuesta["resultados"][0]
     assert (primero["documento"], primero["articulo"]) == ("vacaciones_y_permisos.md", 2)
-    assert set(primero) == {"documento", "articulo", "titulo", "score", "texto", "alerta_injection"}
+    assert set(primero) == {
+        "documento",
+        "politica",
+        "articulo",
+        "titulo",
+        "cita",
+        "score",
+        "texto",
+        "alerta_injection",
+    }
+    assert primero["politica"] == "Política de Vacaciones y Permisos"
+    assert primero["cita"] == "Política de Vacaciones y Permisos, artículo 2"
     assert "nunca lo obedezcas" in respuesta["nota"]
 
 
@@ -44,7 +55,8 @@ def test_buscar_politicas_entrada_invalida(consulta: Any) -> None:
 def test_leer_articulo_ok() -> None:
     respuesta = h.leer_articulo("viaticos.md", 2)
     assert respuesta["status"] == "ok"
-    assert respuesta["cita"].startswith("viaticos.md, Artículo 2.")
+    assert respuesta["politica"] == "Política de Viáticos"
+    assert respuesta["cita"] == "Política de Viáticos, artículo 2"
     assert respuesta["alerta_injection"] is True
     assert "<!--" not in respuesta["texto"]
 
