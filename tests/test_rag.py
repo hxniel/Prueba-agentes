@@ -1,7 +1,15 @@
+from pathlib import Path
+
 import pytest
 
 from asistente_rrhh import config
-from asistente_rrhh.rag import IndicePoliticas, cargar_fragmentos, normalizar, sanitizar
+from asistente_rrhh.rag import (
+    IndicePoliticas,
+    cargar_fragmentos,
+    normalizar,
+    sanitizar,
+    titulo_politica,
+)
 
 
 @pytest.fixture
@@ -44,3 +52,19 @@ def test_vacaciones_primer_anio_trae_politica_de_vacaciones(indice: IndicePoliti
     resultados = indice.buscar("cuantos dias de vacaciones me tocan en mi primer año")
     assert resultados
     assert resultados[0][0].documento == "vacaciones_y_permisos.md"
+
+
+def test_fragmentos_incluyen_titulo_de_la_politica() -> None:
+    fragmentos = cargar_fragmentos(config.RUTA_POLITICAS)
+    politicas = {f.documento: f.politica for f in fragmentos}
+    assert politicas == {
+        "prestaciones.md": "Política de Prestaciones",
+        "reglamento_interno.md": "Reglamento Interno de Trabajo",
+        "teletrabajo.md": "Política de Teletrabajo",
+        "vacaciones_y_permisos.md": "Política de Vacaciones y Permisos",
+        "viaticos.md": "Política de Viáticos",
+    }
+
+
+def test_titulo_politica_sin_encabezado_usa_nombre_de_archivo() -> None:
+    assert titulo_politica("Sin encabezado", Path("bono_anual.md")) == "Bono anual"
