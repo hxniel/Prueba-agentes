@@ -68,6 +68,6 @@ No tiene tools de negocio. ADK le agrega automáticamente `transfer_to_agent(age
 
 | Entrada | Salida esperada |
 | --- | --- |
-| "¿De cuánto es la prima vacacional?" | Delega a `experto_politicas`, que responde 25% citando (vacaciones_y_permisos.md, Artículo 2). |
+| "¿De cuánto es la prima vacacional?" | Delega a `experto_politicas`, que responde 25% citando (Política de Vacaciones y Permisos, artículo 2). |
 | "¿Cuántos días de vacaciones me quedan?" | Delega a `gestor_casos`, que consulta el saldo del empleado de la sesión. |
 | "Dame una receta de pozole" | Responde sin tools que solo atiende RRHH y ofrece ejemplos como consultar vacaciones o levantar un ticket. |
