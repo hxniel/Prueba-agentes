@@ -1,0 +1,21 @@
+{
+  "en_corpus": [
+    {"pregunta": "cuantos dias de vacaciones me tocan si llevo 3 años", "documento": "vacaciones_y_permisos.md", "articulo": 1},
+    {"pregunta": "de cuanto es la prima vacacional", "documento": "vacaciones_y_permisos.md", "articulo": 2},
+    {"pregunta": "con cuanta anticipacion tengo que pedir mis vacaciones en el portal", "documento": "vacaciones_y_permisos.md", "articulo": 3},
+    {"pregunta": "voy a ser papá, cuantos dias de permiso de paternidad me dan", "documento": "vacaciones_y_permisos.md", "articulo": 4},
+    {"pregunta": "se murio mi papa, cuantos dias me dan por fallecimiento", "documento": "vacaciones_y_permisos.md", "articulo": 6},
+    {"pregunta": "cuantos minutos de tolerancia hay si llego tarde", "documento": "reglamento_interno.md", "articulo": 2},
+    {"pregunta": "puedo ir con ropa informal el viernes", "documento": "reglamento_interno.md", "articulo": 3},
+    {"pregunta": "cuanto me dan de apoyo para internet y luz si hago home office", "documento": "teletrabajo.md", "articulo": 3},
+    {"pregunta": "me pueden obligar a contestar mensajes despues de mi horario, derecho a desconexion", "documento": "teletrabajo.md", "articulo": 4},
+    {"pregunta": "cual es el tope de hospedaje en un viaje de trabajo", "documento": "viaticos.md", "articulo": 1},
+    {"pregunta": "cuanto pagan por kilometro si uso mi coche", "documento": "viaticos.md", "articulo": 5},
+    {"pregunta": "cuando pagan el aguinaldo y de cuantos dias es", "documento": "prestaciones.md", "articulo": 1}
+  ],
+  "fuera_de_corpus": [
+    "la empresa tiene guarderia para mis hijos",
+    "me pueden dar un credito para comprar una casa",
+    "donde me estaciono en la oficina"
+  ]
+}
