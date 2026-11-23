@@ -28,6 +28,10 @@ def _error(mensaje: str) -> dict[str, Any]:
     return {"status": "error", "mensaje": mensaje}
 
 
+def _cita(politica: str, articulo: int) -> str:
+    return f"{politica}, artículo {articulo}"
+
+
 def _entero(valor: Any) -> int | None:
     if isinstance(valor, bool):
         return None
@@ -114,8 +118,10 @@ def buscar_politicas(consulta: str) -> dict[str, Any]:
             "resultados": [
                 {
                     "documento": fragmento.documento,
+                    "politica": fragmento.politica,
                     "articulo": fragmento.articulo,
                     "titulo": fragmento.titulo,
+                    "cita": _cita(fragmento.politica, fragmento.articulo),
                     "score": round(score, 2),
                     "texto": fragmento.texto,
                     "alerta_injection": fragmento.alerta_injection,
@@ -148,10 +154,11 @@ def leer_articulo(documento: str, articulo: int) -> dict[str, Any]:
                 return {
                     "status": "ok",
                     "documento": documento,
+                    "politica": fragmento.politica,
                     "articulo": numero,
                     "titulo": fragmento.titulo,
                     "texto": fragmento.texto,
-                    "cita": f"{documento}, Artículo {numero}. {fragmento.titulo}",
+                    "cita": _cita(fragmento.politica, numero),
                     "alerta_injection": fragmento.alerta_injection,
                     "nota": NOTA_DOCUMENTOS,
                 }
