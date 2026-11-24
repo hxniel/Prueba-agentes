@@ -240,7 +240,6 @@ Los valores se tomaron de la interfaz web, que muestra `duracion_ms` en segundos
 
 ### Herramientas de IA
 
-- **Claude** para el diseño de la solución y la arquitectura.
-- **Claude Code** para la implementación.
-
-Todo el código y la documentación generados fueron revisados por mí.
+- **Diseño propio:** el problema, el stack, la arquitectura (orquestador con dos subagentes, RAG con BM25 y umbral, herramientas con validación) y las reglas del proyecto los definí yo.
+- **Claude Code** como asistente de programación: implementó el código, las pruebas y la documentación a partir de mis especificaciones, entregadas paso a paso, una por rama.
+- **Revisión y pruebas:** revisé cada cambio, probé el agente en vivo y pedí las correcciones que encontré (búsqueda de viáticos, formato de citas y fuentes citadas).
