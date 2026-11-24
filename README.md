@@ -122,7 +122,7 @@ Respuesta `200`:
 | `respuesta` | string | Texto final del asistente |
 | `session_id` | string | Sesión para el siguiente turno |
 | `pasos` | lista | `agente`, `tipo` (`delegacion`, `llamada_tool`, `resultado_tool`, `respuesta`) y `detalle` |
-| `fuentes` | lista | `documento`, `articulo` y `titulo`, sin duplicados |
+| `fuentes` | lista | `documento`, `politica`, `articulo` y `titulo` de los artículos que la respuesta cita, sin duplicados; lo que la búsqueda trajo y no se citó queda en `pasos` |
 | `duracion_ms` | entero | Duración del turno |
 
 Errores: `422` si la solicitud no cumple el contrato; `503` con `"El asistente no está disponible en este momento, intenta de nuevo."` si el LLM falla o tarda más de 60 segundos.
