@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import re
 import time
 from typing import Any
 
@@ -87,6 +88,23 @@ def extraer_fuentes(evento: Any) -> list[Fuente]:
     return fuentes
 
 
+def filtrar_fuentes_citadas(fuentes: list[Fuente], respuesta: str) -> list[Fuente]:
+    """Conserva solo las fuentes cuya cita aparece en el texto de la respuesta.
+
+    Args:
+        fuentes: Fuentes recuperadas por las tools durante el turno.
+        respuesta: Texto final del asistente.
+    """
+    texto = respuesta.casefold()
+    return [
+        fuente
+        for fuente in fuentes
+        if re.search(
+            rf"{re.escape(fuente.politica.casefold())},\s*artículo\s+{fuente.articulo}\b", texto
+        )
+    ]
+
+
 def _texto(evento: Any) -> str:
     contenido = getattr(evento, "content", None)
     partes = getattr(contenido, "parts", None) or []
@@ -149,6 +167,6 @@ async def ejecutar_turno(mensaje: str, session_id: str | None, id_empleado: str)
         respuesta=respuesta or RESPUESTA_VACIA,
         session_id=sesion.id,
         pasos=pasos,
-        fuentes=list(fuentes.values()),
+        fuentes=filtrar_fuentes_citadas(list(fuentes.values()), respuesta),
         duracion_ms=duracion_ms,
     )
