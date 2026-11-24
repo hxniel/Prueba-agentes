@@ -147,3 +147,27 @@ def test_extraer_fuentes_de_buscar_y_leer() -> None:
     ]
     fuentes = servicio.extraer_fuentes(_evento(respuestas=respuestas))
     assert fuentes == [Fuente(**resultado), Fuente(**resultado)]
+
+
+def _fuente(politica: str, articulo: int) -> Fuente:
+    return Fuente(documento="x.md", politica=politica, articulo=articulo, titulo="t")
+
+
+def test_filtrar_fuentes_conserva_solo_las_citadas() -> None:
+    viaticos = _fuente("Política de Viáticos", 1)
+    teletrabajo = _fuente("Política de Teletrabajo", 3)
+    respuesta = "Los topes son 1,800 y 600 pesos (Política de Viáticos, artículo 1)."
+    assert servicio.filtrar_fuentes_citadas([viaticos, teletrabajo], respuesta) == [viaticos]
+
+
+def test_filtrar_fuentes_sin_citas_regresa_vacio() -> None:
+    respuesta = "No hay información sobre guardería. Creé el ticket RH-2026-0002."
+    fuentes = [_fuente("Política de Teletrabajo", 3)]
+    assert servicio.filtrar_fuentes_citadas(fuentes, respuesta) == []
+
+
+def test_filtrar_fuentes_ignora_mayusculas_y_no_confunde_numeros() -> None:
+    articulo_1 = _fuente("Política de Prestaciones", 1)
+    articulo_2 = _fuente("Política de Prestaciones", 2)
+    respuesta = "Ver (política de prestaciones, Artículo 1) y el artículo 12 de otra norma."
+    assert servicio.filtrar_fuentes_citadas([articulo_1, articulo_2], respuesta) == [articulo_1]
